@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFrameworks>net6.0;net7.0;net8.0;netstandard2.1</TargetFrameworks>
@@ -21,10 +21,6 @@
     <ItemGroup>
         <None Include="README.MD" Pack="true" PackagePath="" />
         <None Include="../../LICENSE" Pack="true" PackagePath="" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="TonSdk.Core" Version="0.3.3" />
     </ItemGroup>
 
     <ItemGroup>
