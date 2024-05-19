@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 using TonSdk.Core;
 using TonSdk.Core.Block;
@@ -18,6 +18,12 @@ namespace TonSdk.Client
 
     public class HttpApi : IDisposable
     {
+        private static readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions 
+        { 
+            IncludeFields = true,
+            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString
+        };
+
         private readonly HttpClient _httpClient;
         
         internal HttpApi(HttpParameters httpApiParameters)
@@ -45,7 +51,7 @@ namespace TonSdk.Client
             var result = await new TonRequest(new RequestParameters("getAddressInformation", requestBody), _httpClient)
                 .Call();
             RootAddressInformation resultAddressInformation =
-                JsonConvert.DeserializeObject<RootAddressInformation>(result);
+                JsonSerializer.Deserialize<RootAddressInformation>(result, _jsonSerializerOptions);
             AddressInformationResult addressInformationResult =
                 new AddressInformationResult(resultAddressInformation.Result);
             return addressInformationResult;
@@ -59,7 +65,7 @@ namespace TonSdk.Client
             var result = await new TonRequest(new RequestParameters("getWalletInformation", requestBody), _httpClient)
                 .Call();
             RootWalletInformation resultWalletInformation =
-                JsonConvert.DeserializeObject<RootWalletInformation>(result);
+                JsonSerializer.Deserialize<RootWalletInformation>(result, _jsonSerializerOptions);
             if (!resultWalletInformation.Ok) throw new Exception("An error occured when requesting a method.");
             WalletInformationResult walletInformationResult =
                 new WalletInformationResult(resultWalletInformation.Result);
@@ -73,7 +79,7 @@ namespace TonSdk.Client
             var result = await new TonRequest(new RequestParameters("getMasterchainInfo", new EmptyBody()), _httpClient)
                 .Call();
             RootMasterchainInformation rootMasterchainInformation =
-                JsonConvert.DeserializeObject<RootMasterchainInformation>(result);
+                JsonSerializer.Deserialize<RootMasterchainInformation>(result, _jsonSerializerOptions);
             MasterchainInformationResult masterchainInformationResult =
                 new MasterchainInformationResult(rootMasterchainInformation.Result);
             return masterchainInformationResult;
@@ -84,7 +90,7 @@ namespace TonSdk.Client
         {
             var requestBody = new InShardsBody(seqno);
             var result = await new TonRequest(new RequestParameters("shards", requestBody), _httpClient).Call();
-            RootShardsInformation rootShardsInformation = JsonConvert.DeserializeObject<RootShardsInformation>(result);
+            RootShardsInformation rootShardsInformation = JsonSerializer.Deserialize<RootShardsInformation>(result, _jsonSerializerOptions);
             ShardsInformationResult shardsInformationResult = new ShardsInformationResult(rootShardsInformation.Result);
             return shardsInformationResult;
         }
@@ -101,7 +107,7 @@ namespace TonSdk.Client
             var result = await new TonRequest(new RequestParameters("getBlockHeader", requestBody), _httpClient)
                 .Call();
 
-            RootBlockHeader rootBlockHeader = JsonConvert.DeserializeObject<RootBlockHeader>(result);
+            RootBlockHeader rootBlockHeader = JsonSerializer.Deserialize<RootBlockHeader>(result, _jsonSerializerOptions);
             BlockDataResult blockDataResult = new BlockDataResult(rootBlockHeader.Result);
             return blockDataResult;
         }
@@ -112,7 +118,7 @@ namespace TonSdk.Client
             var requestBody = new InLookUpBlock(workchain, shard, seqno, lt, unixTime);
             var result = await new TonRequest(new RequestParameters("lookupBlock", requestBody), _httpClient)
                 .Call();
-            BlockIdExtended rootBlockIdExtended = JsonConvert.DeserializeObject<RootLookUpBlock>(result).Result;
+            BlockIdExtended rootBlockIdExtended = JsonSerializer.Deserialize<RootLookUpBlock>(result, _jsonSerializerOptions).Result;
             return rootBlockIdExtended;
         }
         
@@ -130,7 +136,7 @@ namespace TonSdk.Client
                 new InBlockTransactions(workchain, shard, seqno, rootHash, fileHash, afterLt, afterHash, count);
             var result = await new TonRequest(new RequestParameters("getBlockTransactions", requestBody), _httpClient)
                 .Call();
-            RootBlockTransactions rootBlockTransactions = JsonConvert.DeserializeObject<RootBlockTransactions>(result);
+            RootBlockTransactions rootBlockTransactions = JsonSerializer.Deserialize<RootBlockTransactions>(result, _jsonSerializerOptions);
             BlockTransactionsResult blockTransactionsResult = new BlockTransactionsResult(rootBlockTransactions.Result);
             return blockTransactionsResult;
         }
@@ -150,7 +156,7 @@ namespace TonSdk.Client
 
             var result = await new TonRequest(new RequestParameters("getTransactions", requestBody), _httpClient)
                 .Call();
-            RootTransactions resultRoot = JsonConvert.DeserializeObject<RootTransactions>(result);
+            RootTransactions resultRoot = JsonSerializer.Deserialize<RootTransactions>(result, _jsonSerializerOptions);
 
             TransactionsInformationResult[] transactionsInformationResult =
                 new TransactionsInformationResult[resultRoot.Result.Length];
@@ -171,7 +177,7 @@ namespace TonSdk.Client
                 stack = stack ?? Array.Empty<string[]>()
             };
             var result = await new TonRequest(new RequestParameters("runGetMethod", requestBody), _httpClient).Call();
-            RootRunGetMethod resultRoot = JsonConvert.DeserializeObject<RootRunGetMethod>(result);
+            RootRunGetMethod resultRoot = JsonSerializer.Deserialize<RootRunGetMethod>(result, _jsonSerializerOptions);
             RunGetMethodResult outRunGetMethod = new RunGetMethodResult(resultRoot.Result);
             return outRunGetMethod;
         }
@@ -183,7 +189,7 @@ namespace TonSdk.Client
                 boc = boc.ToString("base64")
             };
             var result = await new TonRequest(new RequestParameters("sendBoc", requestBody), _httpClient).Call();
-            RootSendBoc resultRoot = JsonConvert.DeserializeObject<RootSendBoc>(result);
+            RootSendBoc resultRoot = JsonSerializer.Deserialize<RootSendBoc>(result, _jsonSerializerOptions);
             SendBocResult outSendBoc = resultRoot.Result;
             return outSendBoc;
         }
@@ -209,7 +215,7 @@ namespace TonSdk.Client
             };
 
             var result = await new TonRequest(new RequestParameters("estimateFee", requestBody), _httpClient).Call();
-            RootEstimateFee resultRoot = JsonConvert.DeserializeObject<RootEstimateFee>(result);
+            RootEstimateFee resultRoot = JsonSerializer.Deserialize<RootEstimateFee>(result, _jsonSerializerOptions);
             EstimateFeeResult outEstimateFee = resultRoot.Result;
             return outEstimateFee;
         }
@@ -226,7 +232,7 @@ namespace TonSdk.Client
             }
 
             var result = await new TonRequest(new RequestParameters("getConfigParam", requestBody), _httpClient).Call();
-            RootGetConfigParam resultRoot = JsonConvert.DeserializeObject<RootGetConfigParam>(result);
+            RootGetConfigParam resultRoot = JsonSerializer.Deserialize<RootGetConfigParam>(result, _jsonSerializerOptions);
             ConfigParamResult outConfigParam = new ConfigParamResult(resultRoot.Result.Config);
             return outConfigParam;
         }

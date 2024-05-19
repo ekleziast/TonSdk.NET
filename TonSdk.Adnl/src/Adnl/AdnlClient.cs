@@ -14,7 +14,7 @@ namespace TonSdk.Adnl
         Closed
     }
 
-    public class AdnlClientTcp
+    public class AdnlClientTcp : IDisposable
     {
         private TcpClient _socket;
         private NetworkStream _networkStream;
@@ -211,6 +211,18 @@ namespace TonSdk.Adnl
             bytes[3] = (byte)(unsignedNumber & 0xFF);
 
             return $"{bytes[0]}.{bytes[1]}.{bytes[2]}.{bytes[3]}";
+        }
+
+        public void Dispose()
+        {
+            _networkStream.Dispose();
+            _socket.Dispose();
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            await _networkStream.DisposeAsync();
+            _socket.Dispose();
         }
     }
 }

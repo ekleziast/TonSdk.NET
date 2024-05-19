@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -39,6 +39,12 @@ namespace TonSdk.Client
 
     public class TonRequest
     {
+        private static readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions
+        {
+            IncludeFields = true,
+            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString
+        };
+
         private readonly RequestParameters _params;
         private readonly HttpClient _httpClient;
 
@@ -50,16 +56,16 @@ namespace TonSdk.Client
 
         public async Task<string> Call()
         {
-            string data = JsonConvert.SerializeObject(new
+            string data = JsonSerializer.Serialize(new
             {
                 id = "1",
                 jsonrpc = "2.0",
                 method = _params.MethodName,
-                @params = _params.RequestBody != null ? _params.RequestBody : null
-            });
+                @params = _params.RequestBody != null ? (object)_params.RequestBody : null
+            }, _jsonSerializerOptions);
 
-            StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await _httpClient.PostAsync(string.Empty, content);
+            using StringContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+            using HttpResponseMessage response = await _httpClient.PostAsync(string.Empty, content);
             
             if (!response.IsSuccessStatusCode)
                 throw new Exception($"Received error: {await response.Content.ReadAsStringAsync()}");
@@ -71,6 +77,12 @@ namespace TonSdk.Client
     
     public class TonRequestV3
     {
+        private static readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions
+        {
+            IncludeFields = true,
+            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString
+        };
+
         private readonly RequestParametersV3 _params;
         private readonly HttpClient _httpClient;
 
@@ -100,7 +112,7 @@ namespace TonSdk.Client
                 builder.Query = queryString.ToString();
                 string url = builder.ToString();
         
-                var response = await _httpClient.GetAsync(url);
+                using var response = await _httpClient.GetAsync(url);
         
                 if (response.StatusCode == HttpStatusCode.Conflict)
                     return "conflict";
@@ -122,7 +134,7 @@ namespace TonSdk.Client
             builder.Query = query.ToString();
             string url = builder.ToString();
             
-            var response = await _httpClient.GetAsync(url);
+            using var response = await _httpClient.GetAsync(url);
 
             if (response.StatusCode == HttpStatusCode.Conflict)
                 return "conflict";
@@ -141,10 +153,10 @@ namespace TonSdk.Client
                 var builder = new UriBuilder(_httpClient.BaseAddress + _params.MethodName);
                 string url = builder.ToString();
 
-                string data = JsonConvert.SerializeObject(_params.RequestBody);
-                var content = new StringContent(data, Encoding.UTF8, "application/json");
+                string data = JsonSerializer.Serialize(_params.RequestBody, _jsonSerializerOptions);
+                using var content = new StringContent(data, Encoding.UTF8, "application/json");
                 
-                var response = await _httpClient.PostAsync(url, content);
+                using var response = await _httpClient.PostAsync(url, content);
                 if (!response.IsSuccessStatusCode)
                     throw new Exception($"Received error: {await response.Content.ReadAsStringAsync()}");
                 return await response.Content.ReadAsStringAsync();

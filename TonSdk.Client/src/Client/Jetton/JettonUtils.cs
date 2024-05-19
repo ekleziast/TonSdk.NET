@@ -1,9 +1,10 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Net.Http;
 using System.Numerics;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using TonSdk.Core.Boc;
 using TonSdk.Core.Crypto;
@@ -12,13 +13,13 @@ namespace TonSdk.Client
 {
     public class JettonContent
     {
-        [JsonProperty("uri")] public string Uri;
-        [JsonProperty("name")] public string Name;
-        [JsonProperty("description")] public string Description;
-        [JsonProperty("image")] public string Image;
-        [JsonProperty("image_data")] public string ImageData;
-        [JsonProperty("symbol")] public string Symbol;
-        [JsonProperty("decimals")] public uint Decimals = 9;
+        [JsonPropertyName("uri")] public string Uri;
+        [JsonPropertyName("name")] public string Name;
+        [JsonPropertyName("description")] public string Description;
+        [JsonPropertyName("image")] public string Image;
+        [JsonPropertyName("image_data")] public string ImageData;
+        [JsonPropertyName("symbol")] public string Symbol;
+        [JsonPropertyName("decimals")] public uint Decimals = 9;
 
         public JettonContent(Dictionary<string, string> valueDict)
         {
@@ -46,15 +47,21 @@ namespace TonSdk.Client
 
     public class JettonUtils
     {
+        private static readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions
+        {
+            IncludeFields = true,
+            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString
+        };
+
         public struct OutJettonOffContent
         {
-            [JsonProperty("uri")] public string Uri;
-            [JsonProperty("name")] public string Name;
-            [JsonProperty("description")] public string Description;
-            [JsonProperty("image")] public string Image;
-            [JsonProperty("image_data")] public string ImageData;
-            [JsonProperty("symbol")] public string Symbol;
-            [JsonProperty("decimals")] public string Decimals;
+            [JsonPropertyName("uri")] public string Uri;
+            [JsonPropertyName("name")] public string Name;
+            [JsonPropertyName("description")] public string Description;
+            [JsonPropertyName("image")] public string Image;
+            [JsonPropertyName("image_data")] public string ImageData;
+            [JsonPropertyName("symbol")] public string Symbol;
+            [JsonPropertyName("decimals")] public string Decimals;
         }
 
         public static async Task<JettonContent> ParseMetadata(Cell content)
@@ -123,7 +130,7 @@ namespace TonSdk.Client
             if (!response.IsSuccessStatusCode) throw new Exception($"Received error: {await response.Content.ReadAsStringAsync()}");
             string result = await response.Content.ReadAsStringAsync();
 
-            OutJettonOffContent offJettonContent = JsonConvert.DeserializeObject<OutJettonOffContent>(result);
+            OutJettonOffContent offJettonContent = JsonSerializer.Deserialize<OutJettonOffContent>(result, _jsonSerializerOptions);
             jettonContent.Description ??= offJettonContent.Description;
             jettonContent.Name ??= offJettonContent.Name;
             jettonContent.ImageData ??= offJettonContent.ImageData;
@@ -153,7 +160,7 @@ namespace TonSdk.Client
             if (!response.IsSuccessStatusCode) throw new Exception($"Received error: {await response.Content.ReadAsStringAsync()}");
             string result = await response.Content.ReadAsStringAsync();
 
-            OutJettonOffContent offJettonContent = JsonConvert.DeserializeObject<OutJettonOffContent>(result);
+            OutJettonOffContent offJettonContent = JsonSerializer.Deserialize<OutJettonOffContent>(result, _jsonSerializerOptions);
             JettonContent jettonContent = new JettonContent(offJettonContent);
             return jettonContent ?? throw new Exception("Parse metadata error.");
         }

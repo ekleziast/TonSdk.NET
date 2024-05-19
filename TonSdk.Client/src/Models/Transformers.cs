@@ -1,10 +1,11 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 using TonSdk.Adnl.LiteClient;
 using TonSdk.Client.Stack;
 using TonSdk.Core;
@@ -198,325 +199,325 @@ namespace TonSdk.Client
 
         internal struct RootAddressInformation
         {
-            [JsonProperty("ok")] public bool Ok { get; set; }
-            [JsonProperty("result")] public OutAddressInformationResult Result { get; set; }
-            [JsonProperty("id")] public string Id { get; set; }
-            [JsonProperty("jsonrpc")] public string JsonRPC { get; set; }
+            [JsonPropertyName("ok")] public bool Ok { get; set; }
+            [JsonPropertyName("result")] public OutAddressInformationResult Result { get; set; }
+            [JsonPropertyName("id")] public string Id { get; set; }
+            [JsonPropertyName("jsonrpc")] public string JsonRPC { get; set; }
         }
         
         internal struct RootWalletInformation
         {
-            [JsonProperty("ok")] public bool Ok { get; set; }
+            [JsonPropertyName("ok")] public bool Ok { get; set; }
 
-            [JsonProperty("result")]
+            [JsonPropertyName("result")]
             public OutWalletInformationResult Result { get; set; }
         }
 
         internal struct RootMasterchainInformation
         {
-            [JsonProperty("ok")] public bool Ok { get; set; }
-            [JsonProperty("result")] public OutMasterchanInformationResult Result { get; set; }
-            [JsonProperty("id")] public string Id { get; set; }
-            [JsonProperty("jsonrpc")] public string JsonRPC { get; set; }
+            [JsonPropertyName("ok")] public bool Ok { get; set; }
+            [JsonPropertyName("result")] public OutMasterchanInformationResult Result { get; set; }
+            [JsonPropertyName("id")] public string Id { get; set; }
+            [JsonPropertyName("jsonrpc")] public string JsonRPC { get; set; }
         }
 
         internal struct RootShardsInformation
         {
-            [JsonProperty("ok")] public bool Ok { get; set; }
-            [JsonProperty("result")] public OutShardsInformationResult Result { get; set; }
-            [JsonProperty("id")] public string Id { get; set; }
-            [JsonProperty("jsonrpc")] public string JsonRPC { get; set; }
+            [JsonPropertyName("ok")] public bool Ok { get; set; }
+            [JsonPropertyName("result")] public OutShardsInformationResult Result { get; set; }
+            [JsonPropertyName("id")] public string Id { get; set; }
+            [JsonPropertyName("jsonrpc")] public string JsonRPC { get; set; }
         }
 
         internal struct RootBlockTransactions
         {
-            [JsonProperty("ok")] public bool Ok { get; set; }
-            [JsonProperty("result")] public OutBlockTransactionsResult Result { get; set; }
-            [JsonProperty("transactions")] public OutV3ShortTransactionsResult[] Transactions { get; set; }
-            [JsonProperty("id")] public string Id { get; set; }
-            [JsonProperty("jsonrpc")] public string JsonRPC { get; set; }
+            [JsonPropertyName("ok")] public bool Ok { get; set; }
+            [JsonPropertyName("result")] public OutBlockTransactionsResult Result { get; set; }
+            [JsonPropertyName("transactions")] public OutV3ShortTransactionsResult[] Transactions { get; set; }
+            [JsonPropertyName("id")] public string Id { get; set; }
+            [JsonPropertyName("jsonrpc")] public string JsonRPC { get; set; }
         }
 
         internal struct RootBlockHeader
         {
-            [JsonProperty("ok")] public bool Ok { get; set; }
-            [JsonProperty("result")] public OutBlockHeaderResult Result { get; set; }
-            [JsonProperty("id")] public string Id { get; set; }
-            [JsonProperty("jsonrpc")] public string JsonRPC { get; set; }
+            [JsonPropertyName("ok")] public bool Ok { get; set; }
+            [JsonPropertyName("result")] public OutBlockHeaderResult Result { get; set; }
+            [JsonPropertyName("id")] public string Id { get; set; }
+            [JsonPropertyName("jsonrpc")] public string JsonRPC { get; set; }
         }
         
         internal struct RootLookUpBlock
         {
-            [JsonProperty("ok")] public bool Ok { get; set; }
-            [JsonProperty("result")] public BlockIdExtended Result { get; set; }
-            [JsonProperty("id")] public string Id { get; set; }
-            [JsonProperty("jsonrpc")] public string JsonRPC { get; set; }
+            [JsonPropertyName("ok")] public bool Ok { get; set; }
+            [JsonPropertyName("result")] public BlockIdExtended Result { get; set; }
+            [JsonPropertyName("id")] public string Id { get; set; }
+            [JsonPropertyName("jsonrpc")] public string JsonRPC { get; set; }
         }
         
         internal struct RootV3LookUpBlock
         {
-            [JsonProperty("blocks")] public BlockIdExtended[] Blocks { get; set; }
+            [JsonPropertyName("blocks")] public BlockIdExtended[] Blocks { get; set; }
         }
 
         internal struct RootTransactions
         {
-            [JsonProperty("ok")] public bool Ok { get; set; }
-            [JsonProperty("result")] public OutTransactionsResult[] Result { get; set; }
-            [JsonProperty("transactions")] public OutV3TransactionsResult[] Transactions { get; set; }
-            [JsonProperty("id")] public string Id { get; set; }
-            [JsonProperty("jsonrpc")] public string JsonRPC { get; set; }
+            [JsonPropertyName("ok")] public bool Ok { get; set; }
+            [JsonPropertyName("result")] public OutTransactionsResult[] Result { get; set; }
+            [JsonPropertyName("transactions")] public OutV3TransactionsResult[] Transactions { get; set; }
+            [JsonPropertyName("id")] public string Id { get; set; }
+            [JsonPropertyName("jsonrpc")] public string JsonRPC { get; set; }
         }
 
         internal struct RootRunGetMethod
         {
-            [JsonProperty("ok")] public bool Ok { get; set; }
-            [JsonProperty("result")] public OutRunGetMethod Result { get; set; }
-            [JsonProperty("id")] public string Id { get; set; }
-            [JsonProperty("jsonrpc")] public string JsonRPC { get; set; }
+            [JsonPropertyName("ok")] public bool Ok { get; set; }
+            [JsonPropertyName("result")] public OutRunGetMethod Result { get; set; }
+            [JsonPropertyName("id")] public string Id { get; set; }
+            [JsonPropertyName("jsonrpc")] public string JsonRPC { get; set; }
         }
 
         internal struct RootSendBoc
         {
-            [JsonProperty("ok")] public bool Ok { get; set; }
-            [JsonProperty("result")] public SendBocResult Result { get; set; }
-            [JsonProperty("id")] public string Id { get; set; }
-            [JsonProperty("jsonrpc")] public string JsonRPC { get; set; }
-            [JsonProperty("message_hash")] public string MessageHash { get; set; }
+            [JsonPropertyName("ok")] public bool Ok { get; set; }
+            [JsonPropertyName("result")] public SendBocResult Result { get; set; }
+            [JsonPropertyName("id")] public string Id { get; set; }
+            [JsonPropertyName("jsonrpc")] public string JsonRPC { get; set; }
+            [JsonPropertyName("message_hash")] public string MessageHash { get; set; }
         }
 
         internal struct RootEstimateFee
         {
-            [JsonProperty("ok")] public bool Ok { get; set; }
-            [JsonProperty("result")] public EstimateFeeResult Result { get; set; }
-            [JsonProperty("id")] public string Id { get; set; }
-            [JsonProperty("jsonrpc")] public string JsonRPC { get; set; }
+            [JsonPropertyName("ok")] public bool Ok { get; set; }
+            [JsonPropertyName("result")] public EstimateFeeResult Result { get; set; }
+            [JsonPropertyName("id")] public string Id { get; set; }
+            [JsonPropertyName("jsonrpc")] public string JsonRPC { get; set; }
         }
 
         internal struct RootGetConfigParam
         {
-            [JsonProperty("ok")] public bool Ok { get; set; }
-            [JsonProperty("result")] public OutGetConfigParamResult Result { get; set; }
-            [JsonProperty("id")] public string Id { get; set; }
-            [JsonProperty("jsonrpc")] public string JsonRPC { get; set; }
+            [JsonPropertyName("ok")] public bool Ok { get; set; }
+            [JsonPropertyName("result")] public OutGetConfigParamResult Result { get; set; }
+            [JsonPropertyName("id")] public string Id { get; set; }
+            [JsonPropertyName("jsonrpc")] public string JsonRPC { get; set; }
         }
 
         internal struct OutGetConfigParamResult
         {
-            [JsonProperty("config")] public OutConfigParamResult Config;
+            [JsonPropertyName("config")] public OutConfigParamResult Config;
         }
 
         internal struct OutConfigParamResult
         {
-            [JsonProperty("bytes")] public string Bytes;
+            [JsonPropertyName("bytes")] public string Bytes;
         }
 
         internal struct OutAddressInformationResult
         {
-            [JsonProperty("state")] public string State;
-            [JsonProperty("balance")] public string Balance;
-            [JsonProperty("code")] public string Code;
-            [JsonProperty("data")] public string Data;
-            [JsonProperty("last_transaction_id")] public TransactionId LastTransactionId;
-            [JsonProperty("block_id")] public BlockIdExtended BlockId;
-            [JsonProperty("frozen_hash")] public string FrozenHash;
-            [JsonProperty("sync_utime")] public long SyncUtime;
+            [JsonPropertyName("state")] public string State;
+            [JsonPropertyName("balance")] public string Balance;
+            [JsonPropertyName("code")] public string Code;
+            [JsonPropertyName("data")] public string Data;
+            [JsonPropertyName("last_transaction_id")] public TransactionId LastTransactionId;
+            [JsonPropertyName("block_id")] public BlockIdExtended BlockId;
+            [JsonPropertyName("frozen_hash")] public string FrozenHash;
+            [JsonPropertyName("sync_utime")] public long SyncUtime;
         }
         
         internal struct OutV3AddressInformationResult
         {
-            [JsonProperty("status")] public string Status;
-            [JsonProperty("balance")] public string Balance;
-            [JsonProperty("code")] public string Code;
-            [JsonProperty("data")] public string Data;
-            [JsonProperty("last_transaction_lt")] public string LastTransactionLt;
-            [JsonProperty("last_transaction_hash")] public string LastTransactionHash;
-            [JsonProperty("frozen_hash")] public string FrozenHash;
+            [JsonPropertyName("status")] public string Status;
+            [JsonPropertyName("balance")] public string Balance;
+            [JsonPropertyName("code")] public string Code;
+            [JsonPropertyName("data")] public string Data;
+            [JsonPropertyName("last_transaction_lt")] public string LastTransactionLt;
+            [JsonPropertyName("last_transaction_hash")] public string LastTransactionHash;
+            [JsonPropertyName("frozen_hash")] public string FrozenHash;
         }
 
         internal struct OutWalletInformationResult
         {
-            [JsonProperty("wallet")] public string IsWallet;
-            [JsonProperty("balance")] public string Balance;
-            [JsonProperty("account_state")] public string State;
-            [JsonProperty("wallet_type")] public string WalletType;
-            [JsonProperty("seqno")] public string Seqno;
-            [JsonProperty("last_transaction_id")] public TransactionId LastTransactionId;
-            [JsonProperty("wallet_id")] public string WalletId;
+            [JsonPropertyName("wallet")] public string IsWallet;
+            [JsonPropertyName("balance")] public string Balance;
+            [JsonPropertyName("account_state")] public string State;
+            [JsonPropertyName("wallet_type")] public string WalletType;
+            [JsonPropertyName("seqno")] public string Seqno;
+            [JsonPropertyName("last_transaction_id")] public TransactionId LastTransactionId;
+            [JsonPropertyName("wallet_id")] public string WalletId;
         }
         
         internal struct OutV3WalletInformationResult
         {
-            [JsonProperty("balance")] public string Balance;
-            [JsonProperty("status")] public string Status;
-            [JsonProperty("wallet_type")] public string WalletType;
-            [JsonProperty("seqno")] public string Seqno;
-            [JsonProperty("last_transaction_lt")] public string LastTransactionLt;
-            [JsonProperty("last_transaction_hash")] public string LastTransactionHash;
-            [JsonProperty("wallet_id")] public string WalletId;
+            [JsonPropertyName("balance")] public string Balance;
+            [JsonPropertyName("status")] public string Status;
+            [JsonPropertyName("wallet_type")] public string WalletType;
+            [JsonPropertyName("seqno")] public string Seqno;
+            [JsonPropertyName("last_transaction_lt")] public string LastTransactionLt;
+            [JsonPropertyName("last_transaction_hash")] public string LastTransactionHash;
+            [JsonPropertyName("wallet_id")] public string WalletId;
         }
 
         internal struct OutMasterchanInformationResult
         {
-            [JsonProperty("last")] public BlockIdExtended LastBlock;
-            [JsonProperty("init")] public BlockIdExtended InitBlock;
-            [JsonProperty("state_root_hash")] public string StateRootHash;
+            [JsonPropertyName("last")] public BlockIdExtended LastBlock;
+            [JsonPropertyName("init")] public BlockIdExtended InitBlock;
+            [JsonPropertyName("state_root_hash")] public string StateRootHash;
         }
         
         internal struct OutV3MasterchainInformationResult
         {
-            [JsonProperty("last")] public BlockIdExtended LastBlock;
-            [JsonProperty("first")] public BlockIdExtended InitBlock;
+            [JsonPropertyName("last")] public BlockIdExtended LastBlock;
+            [JsonPropertyName("first")] public BlockIdExtended InitBlock;
         }
 
         internal struct OutShardsInformationResult
         {
-            [JsonProperty("shards")] public BlockIdExtended[] Shards;
+            [JsonPropertyName("shards")] public BlockIdExtended[] Shards;
         }
         
         internal struct OutV3ShardsInformationResult
         {
-            [JsonProperty("blocks")] public OutBlockIdExtended[] Blocks;
+            [JsonPropertyName("blocks")] public OutBlockIdExtended[] Blocks;
         }
         
         internal struct OutBlockIdExtended
         {
-            [JsonProperty("workchain")] public int Workchain;
-            [JsonProperty("shard")] public string Shard;
-            [JsonProperty("seqno")] public string Seqno;
-            [JsonProperty("hash")] public string Hash;
-            [JsonProperty("root_hash")] public string RootHash;
-            [JsonProperty("file_hash")] public string FileHash;
+            [JsonPropertyName("workchain")] public int Workchain;
+            [JsonPropertyName("shard")] public string Shard;
+            [JsonPropertyName("seqno")] public string Seqno;
+            [JsonPropertyName("hash")] public string Hash;
+            [JsonPropertyName("root_hash")] public string RootHash;
+            [JsonPropertyName("file_hash")] public string FileHash;
         }
 
         internal struct OutBlockTransactionsResult
         {
-            [JsonProperty("id")] public BlockIdExtended Id;
-            [JsonProperty("req_count")] public int ReqCount;
-            [JsonProperty("incomplete")] public bool Incomplete;
-            [JsonProperty("transactions")] public ShortTransactionsResult[] Transactions;
+            [JsonPropertyName("id")] public BlockIdExtended Id;
+            [JsonPropertyName("req_count")] public int ReqCount;
+            [JsonPropertyName("incomplete")] public bool Incomplete;
+            [JsonPropertyName("transactions")] public ShortTransactionsResult[] Transactions;
         }
         
         internal struct OutBlockHeaderResult
         {
-            [JsonProperty("id")] public BlockIdExtended Id;
-            [JsonProperty("global_id")] public long GlobalId;
-            [JsonProperty("version")] public uint Version;
-            [JsonProperty("flags")] public int Flags;
-            [JsonProperty("after_merge")] public bool AfterMerge;
-            [JsonProperty("after_split")] public bool AfterSplit;
-            [JsonProperty("before_split")] public bool BeforeSplit;
-            [JsonProperty("want_merge")] public bool WantMerge;
-            [JsonProperty("want_split")] public bool WantSplit;
-            [JsonProperty("validator_list_hash_short")] public long ValidatorListHashShort;
-            [JsonProperty("catchain_seqno")] public long CatchainSeqno;
-            [JsonProperty("min_ref_mc_seqno")] public long MinRefMcSeqno;
-            [JsonProperty("is_key_block")] public bool IsKeyBlock;
-            [JsonProperty("prev_key_block_seqno")] public long PrevKeyBlockSeqno;
-            [JsonProperty("start_lt")] public ulong StartLt;
-            [JsonProperty("end_lt")] public ulong EndLt;
-            [JsonProperty("gen_utime")] public long RgenUtime;
-            [JsonProperty("prev_blocks")] public BlockIdExtended[] PrevBlocks;
+            [JsonPropertyName("id")] public BlockIdExtended Id;
+            [JsonPropertyName("global_id")] public long GlobalId;
+            [JsonPropertyName("version")] public uint Version;
+            [JsonPropertyName("flags")] public int Flags;
+            [JsonPropertyName("after_merge")] public bool AfterMerge;
+            [JsonPropertyName("after_split")] public bool AfterSplit;
+            [JsonPropertyName("before_split")] public bool BeforeSplit;
+            [JsonPropertyName("want_merge")] public bool WantMerge;
+            [JsonPropertyName("want_split")] public bool WantSplit;
+            [JsonPropertyName("validator_list_hash_short")] public long ValidatorListHashShort;
+            [JsonPropertyName("catchain_seqno")] public long CatchainSeqno;
+            [JsonPropertyName("min_ref_mc_seqno")] public long MinRefMcSeqno;
+            [JsonPropertyName("is_key_block")] public bool IsKeyBlock;
+            [JsonPropertyName("prev_key_block_seqno")] public long PrevKeyBlockSeqno;
+            [JsonPropertyName("start_lt")] public ulong StartLt;
+            [JsonPropertyName("end_lt")] public ulong EndLt;
+            [JsonPropertyName("gen_utime")] public long RgenUtime;
+            [JsonPropertyName("prev_blocks")] public BlockIdExtended[] PrevBlocks;
         }
         
         internal struct OutTransactionsResult
         {
-            [JsonProperty("utime")] public long Utime;
-            [JsonProperty("data")] public string Data;
-            [JsonProperty("transaction_id")] public TransactionId TransactionId;
-            [JsonProperty("fee")] public string Fee;
-            [JsonProperty("storage_fee")] public string StorageFee;
-            [JsonProperty("other_fee")] public string OtherFee;
-            [JsonProperty("in_msg")] public OutRawMessage InMsg;
-            [JsonProperty("out_msgs")] public OutRawMessage[] OutMsgs;
+            [JsonPropertyName("utime")] public long Utime;
+            [JsonPropertyName("data")] public string Data;
+            [JsonPropertyName("transaction_id")] public TransactionId TransactionId;
+            [JsonPropertyName("fee")] public string Fee;
+            [JsonPropertyName("storage_fee")] public string StorageFee;
+            [JsonPropertyName("other_fee")] public string OtherFee;
+            [JsonPropertyName("in_msg")] public OutRawMessage InMsg;
+            [JsonPropertyName("out_msgs")] public OutRawMessage[] OutMsgs;
         }
         
         internal struct OutV3TransactionsResult
         {
-            [JsonProperty("now")] public long Now;
-            [JsonProperty("lt")] public ulong Lt;
-            [JsonProperty("hash")] public string Hash;
-            [JsonProperty("total_fees")] public string Fee;
+            [JsonPropertyName("now")] public long Now;
+            [JsonPropertyName("lt")] public ulong Lt;
+            [JsonPropertyName("hash")] public string Hash;
+            [JsonPropertyName("total_fees")] public string Fee;
             
-            [JsonProperty("in_msg")] public OutV3RawMessage InMsg;
-            [JsonProperty("out_msgs")] public OutV3RawMessage[] OutMsgs;
+            [JsonPropertyName("in_msg")] public OutV3RawMessage InMsg;
+            [JsonPropertyName("out_msgs")] public OutV3RawMessage[] OutMsgs;
         }
 
         internal struct OutRawMessage
         {
-            [JsonProperty("source")] public string Source;
-            [JsonProperty("destination")] public string Destination;
-            [JsonProperty("value")] public string Value;
-            [JsonProperty("fwd_fee")] public string FwdFee;
-            [JsonProperty("ihr_fee")] public string IhrFee;
-            [JsonProperty("created_lt")] public long CreaterLt;
-            [JsonProperty("body_hash")] public string BodyHash;
-            [JsonProperty("msg_data")] public OutRawMessageData MsgData;
-            [JsonProperty("message")] public string Message;
+            [JsonPropertyName("source")] public string Source;
+            [JsonPropertyName("destination")] public string Destination;
+            [JsonPropertyName("value")] public string Value;
+            [JsonPropertyName("fwd_fee")] public string FwdFee;
+            [JsonPropertyName("ihr_fee")] public string IhrFee;
+            [JsonPropertyName("created_lt")] public long CreaterLt;
+            [JsonPropertyName("body_hash")] public string BodyHash;
+            [JsonPropertyName("msg_data")] public OutRawMessageData MsgData;
+            [JsonPropertyName("message")] public string Message;
         }
         
         internal struct OutV3RawMessage
         {
-            [JsonProperty("source")] public string Source;
-            [JsonProperty("destination")] public string Destination;
-            [JsonProperty("value")] public string Value;
-            [JsonProperty("fwd_fee")] public string FwdFee;
-            [JsonProperty("ihr_fee")] public string IhrFee;
-            [JsonProperty("created_lt")] public long CreatedLt;
-            [JsonProperty("message_content")] public OutV3RawMessageData MsgData;
+            [JsonPropertyName("source")] public string Source;
+            [JsonPropertyName("destination")] public string Destination;
+            [JsonPropertyName("value")] public string Value;
+            [JsonPropertyName("fwd_fee")] public string FwdFee;
+            [JsonPropertyName("ihr_fee")] public string IhrFee;
+            [JsonPropertyName("created_lt")] public long CreatedLt;
+            [JsonPropertyName("message_content")] public OutV3RawMessageData MsgData;
         }
         
         internal struct OutV3RawMessageData
         {
-            [JsonProperty("hash")] public string BodyHash;
-            [JsonProperty("body")] public string Body;
-            [JsonProperty("decoded")] public OutV3MessageDataDecoded? Decoded;
+            [JsonPropertyName("hash")] public string BodyHash;
+            [JsonPropertyName("body")] public string Body;
+            [JsonPropertyName("decoded")] public OutV3MessageDataDecoded? Decoded;
         }
         
         internal struct OutV3MessageDataDecoded
         {
-            [JsonProperty("comment")] public string Comment;
+            [JsonPropertyName("comment")] public string Comment;
         }
 
         internal struct OutRawMessageData
         {
-            [JsonProperty("text")] public string Text;
-            [JsonProperty("body")] public string Body;
-            [JsonProperty("init_state")] public string InitState;
+            [JsonPropertyName("text")] public string Text;
+            [JsonPropertyName("body")] public string Body;
+            [JsonPropertyName("init_state")] public string InitState;
         }
         
         public struct OutV3ShortTransactionsResult
         {
-            [JsonProperty("description")] public OutV3ShortTransactionsDescription Description;
-            [JsonProperty("account")] public string Account;
-            [JsonProperty("lt")] public ulong Lt;
-            [JsonProperty("hash")] public string Hash;
+            [JsonPropertyName("description")] public OutV3ShortTransactionsDescription Description;
+            [JsonPropertyName("account")] public string Account;
+            [JsonPropertyName("lt")] public ulong Lt;
+            [JsonPropertyName("hash")] public string Hash;
         }
 
         public struct OutV3ShortTransactionsDescription
         {
-            [JsonProperty("compute_ph")] public OutV3ShortTransactionsDescriptionComputePh ComputePh;
+            [JsonPropertyName("compute_ph")] public OutV3ShortTransactionsDescriptionComputePh ComputePh;
         }
     
         public struct OutV3ShortTransactionsDescriptionComputePh
         {
-            [JsonProperty("mode")] public int Mode;
+            [JsonPropertyName("mode")] public int Mode;
         }
     }
 
     public struct TransactionId
     {
-        [JsonProperty("lt")] public ulong Lt;
-        [JsonProperty("hash")] public string Hash;
+        [JsonPropertyName("lt")] public ulong Lt;
+        [JsonPropertyName("hash")] public string Hash;
     }
 
     public class BlockIdExtended
     {
-        [JsonProperty("workchain")] public int Workchain;
-        [JsonProperty("shard")] public long Shard;
-        [JsonProperty("seqno")] public long Seqno;
-        [JsonProperty("hash")] public string Hash;
-        [JsonProperty("root_hash")] public string RootHash;
-        [JsonProperty("file_hash")] public string FileHash;
+        [JsonPropertyName("workchain")] public int Workchain;
+        [JsonPropertyName("shard")] public long Shard;
+        [JsonPropertyName("seqno")] public long Seqno;
+        [JsonPropertyName("hash")] public string Hash;
+        [JsonPropertyName("root_hash")] public string RootHash;
+        [JsonPropertyName("file_hash")] public string FileHash;
 
         public BlockIdExtended()
         {
@@ -549,10 +550,10 @@ namespace TonSdk.Client
 
     public struct ShortTransactionsResult
     {
-        [JsonProperty("mode")] public int Mode;
-        [JsonProperty("account")] public string Account;
-        [JsonProperty("lt")] public ulong Lt;
-        [JsonProperty("hash")] public string Hash;
+        [JsonPropertyName("mode")] public int Mode;
+        [JsonPropertyName("account")] public string Account;
+        [JsonPropertyName("lt")] public ulong Lt;
+        [JsonPropertyName("hash")] public string Hash;
     }
     
     public struct BlockDataResult
@@ -880,16 +881,16 @@ namespace TonSdk.Client
 
     internal struct OutRunGetMethod
     {
-        [JsonProperty("gas_used")] public int GasUsed;
-        [JsonProperty("stack")] public object[][] Stack;
-        [JsonProperty("exit_code")] public int ExitCode;
+        [JsonPropertyName("gas_used")] public int GasUsed;
+        [JsonPropertyName("stack")] public object[][] Stack;
+        [JsonPropertyName("exit_code")] public int ExitCode;
     }
     
     internal struct OutV3RunGetMethod
     {
-        [JsonProperty("gas_used")] public int GasUsed;
-        [JsonProperty("stack")] public JObject[] Stack;
-        [JsonProperty("exit_code")] public int ExitCode;
+        [JsonPropertyName("gas_used")] public int GasUsed;
+        [JsonPropertyName("stack")] public JsonObject[] Stack;
+        [JsonPropertyName("exit_code")] public int ExitCode;
     }
 
     public struct RunGetMethodResult
@@ -925,28 +926,29 @@ namespace TonSdk.Client
             StackItems = new IStackItem[] { };
         }
 
-        internal static object ParseObject(JObject x)
+        internal static object ParseObject(JsonObject x)
         {
             string typeName = x["@type"].ToString();
             switch (typeName)
             {
                 case "tvm.list":
                 case "tvm.tuple":
-                    object[] list = new object[x["elements"].Count()];
-                    for (int c = 0; c < x["elements"].Count(); c++)
+                    var i = x["elements"].AsArray().Count();
+                    object[] list = new object[i];
+                    for (int c = 0; c < i; c++)
                     {
-                        list[c] = ParseObject((JObject)x["elements"][c]);
+                        list[c] = ParseObject((JsonObject)x["elements"][c]);
                     }
 
                     return list;
                 case "tvm.cell":
                     return Cell.From(x["bytes"].ToString()); // Cell.From should be defined elsewhere in your code.
                 case "tvm.stackEntryCell":
-                    return ParseObject((JObject)x["cell"]);
+                    return ParseObject((JsonObject)x["cell"]);
                 case "tvm.stackEntryTuple":
-                    return ParseObject((JObject)x["tuple"]);
+                    return ParseObject((JsonObject)x["tuple"]);
                 case "tvm.stackEntryNumber":
-                    return ParseObject((JObject)x["number"]);
+                    return ParseObject((JsonObject)x["number"]);
                 case "tvm.numberDecimal":
                     string number = x["number"].ToString();
                     return BigInteger.Parse(number);
@@ -955,7 +957,7 @@ namespace TonSdk.Client
             }
         }
         
-        internal static object ParseStackItem(JObject item)
+        internal static object ParseStackItem(JsonObject item)
         {
             string type = item["type"].ToString();
 
@@ -981,13 +983,13 @@ namespace TonSdk.Client
                 case "list":
                 case "tuple":
                 {
-                    if (item["value"] is JObject jObject)
+                    if (item["value"] is JsonObject JsonObject)
                     {
-                        return ParseObject(jObject);
+                        return ParseObject(JsonObject);
                     }
                     else
                     {
-                        throw new Exception("Expected a JObject value for 'list' or 'tuple' type.");
+                        throw new Exception("Expected a JsonObject value for 'list' or 'tuple' type.");
                     }
                 }
                 default:
@@ -1039,25 +1041,25 @@ namespace TonSdk.Client
                     }
                 case "cell":
                     {
-                        if (value is JObject jObject && jObject["bytes"] is JValue jValue)
+                        if (value is JsonObject JsonObject && JsonObject["bytes"] is JsonValue jValue)
                         {
-                            return Cell.From((string)jValue.Value);
+                            return Cell.From(jValue.GetValue<string>());
                         }
                         else
                         {
-                            throw new Exception("Expected a JObject value for 'cell' type.");
+                            throw new Exception("Expected a JsonObject value for 'cell' type.");
                         }
                     }
                 case "list":
                 case "tuple":
                     {
-                        if (value is JObject jObject)
+                        if (value is JsonObject JsonObject)
                         {
-                            return ParseObject(jObject);
+                            return ParseObject(JsonObject);
                         }
                         else
                         {
-                            throw new Exception("Expected a JObject value for 'list' or 'tuple' type.");
+                            throw new Exception("Expected a JsonObject value for 'list' or 'tuple' type.");
                         }
                     }
                 default:
@@ -1175,8 +1177,8 @@ namespace TonSdk.Client
 
     public struct SendBocResult
     {
-        [JsonProperty("@type")] public string Type;
-        [JsonProperty("hash")] public string Hash;
+        [JsonPropertyName("@type")] public string Type;
+        [JsonPropertyName("hash")] public string Hash;
     }
 
     public interface IEstimateFeeResult
@@ -1186,23 +1188,23 @@ namespace TonSdk.Client
 
     public struct EstimateFeeResult : IEstimateFeeResult
     {
-        [JsonProperty("@type")] public string Type;
-        [JsonProperty("source_fees")] public SourceFees SourceFees { get; set; }
+        [JsonPropertyName("@type")] public string Type;
+        [JsonPropertyName("source_fees")] public SourceFees SourceFees { get; set; }
     }
     
     public struct EstimateFeeResultExtended : IEstimateFeeResult
     {
-        [JsonProperty("source_fees")] public SourceFees SourceFees { get; set; }
-        [JsonProperty("destination_fees")] public SourceFees[] DestinationFees { get; set; }
+        [JsonPropertyName("source_fees")] public SourceFees SourceFees { get; set; }
+        [JsonPropertyName("destination_fees")] public SourceFees[] DestinationFees { get; set; }
     }
 
     public struct SourceFees
     {
-        [JsonProperty("@type")] public string Type;
-        [JsonProperty("in_fwd_fee")] public long InFwdFee;
-        [JsonProperty("storage_fee")] public long StorageFee;
-        [JsonProperty("gas_fee")] public long GasFee;
-        [JsonProperty("fwd_fee")] public long FwdFee;
+        [JsonPropertyName("@type")] public string Type;
+        [JsonPropertyName("in_fwd_fee")] public long InFwdFee;
+        [JsonPropertyName("storage_fee")] public long StorageFee;
+        [JsonPropertyName("gas_fee")] public long GasFee;
+        [JsonPropertyName("fwd_fee")] public long FwdFee;
     }
 
     public enum AccountState

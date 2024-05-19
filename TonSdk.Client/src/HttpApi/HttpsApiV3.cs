@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 using TonSdk.Client.Stack;
 using TonSdk.Core;
@@ -14,6 +14,12 @@ namespace TonSdk.Client
 {
     public class HttpApiV3 : IDisposable
     {
+        private static readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions
+        {
+            IncludeFields = true,
+            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString
+        };
+
         private readonly HttpClient _httpClient;
         
         public HttpApiV3(HttpParameters httpApiParameters)
@@ -44,8 +50,8 @@ namespace TonSdk.Client
                         "address", address.ToString()
                     }
                 }), _httpClient).CallGet();
-            
-            var addressInformationResult = new AddressInformationResult(JsonConvert.DeserializeObject<OutV3AddressInformationResult>(result));
+
+            var addressInformationResult = new AddressInformationResult(JsonSerializer.Deserialize<OutV3AddressInformationResult>(result, _jsonSerializerOptions));
             return addressInformationResult;
         }
         
@@ -59,13 +65,13 @@ namespace TonSdk.Client
             }), _httpClient).CallGet();
             return result == "conflict" 
                 ? new WalletInformationResult(await GetAddressInformation(address)) 
-                : new WalletInformationResult(JsonConvert.DeserializeObject<OutV3WalletInformationResult>(result));
+                : new WalletInformationResult(JsonSerializer.Deserialize<OutV3WalletInformationResult>(result, _jsonSerializerOptions));
         }
         
         internal async Task<MasterchainInformationResult> GetMasterchainInfo()
         {
             string result = await new TonRequestV3(new RequestParametersV3("masterchainInfo", new Dictionary<string, object>()), _httpClient).CallGet();
-            return new MasterchainInformationResult(JsonConvert.DeserializeObject<OutV3MasterchainInformationResult>(result));
+            return new MasterchainInformationResult(JsonSerializer.Deserialize<OutV3MasterchainInformationResult>(result, _jsonSerializerOptions));
         }
         
         internal async Task<BlockIdExtended> LookUpBlock(int workchain, long shard, long? seqno = null, ulong? lt = null, ulong? unixTime = null)
@@ -96,7 +102,7 @@ namespace TonSdk.Client
                 req.Add("start_utime", unixTime.Value.ToString());
             
             var result = await new TonRequestV3(new RequestParametersV3("blocks", req), _httpClient).CallGet();
-            var blocks = JsonConvert.DeserializeObject<RootV3LookUpBlock>(result).Blocks;
+            var blocks = JsonSerializer.Deserialize<RootV3LookUpBlock>(result, _jsonSerializerOptions).Blocks;
             
             return blocks.Length != 0 ? blocks[0] : null;
         }
@@ -109,7 +115,7 @@ namespace TonSdk.Client
                     "seqno", seqno.ToString()
                 }
             }), _httpClient).CallGet();
-            return new ShardsInformationResult(JsonConvert.DeserializeObject<OutV3ShardsInformationResult>(result));
+            return new ShardsInformationResult(JsonSerializer.Deserialize<OutV3ShardsInformationResult>(result, _jsonSerializerOptions));
         }
         
         internal async Task<TransactionsInformationResult[]> GetTransactions(Address address, uint limit = 10,
@@ -138,7 +144,7 @@ namespace TonSdk.Client
 
             string result = await new TonRequestV3(new RequestParametersV3("transactions", dict), _httpClient).CallGet();
             
-            var data = JsonConvert.DeserializeObject<RootTransactions>(result).Transactions;
+            var data = JsonSerializer.Deserialize<RootTransactions>(result, _jsonSerializerOptions).Transactions;
             return data.Select(t => new TransactionsInformationResult(t)).ToArray();
         }
         
@@ -181,7 +187,7 @@ namespace TonSdk.Client
 
                 string result = await new TonRequestV3(new RequestParametersV3("transactions", dict), _httpClient).CallGet();
             
-                var data = JsonConvert.DeserializeObject<RootBlockTransactions>(result).Transactions;
+                var data = JsonSerializer.Deserialize<RootBlockTransactions>(result, _jsonSerializerOptions).Transactions;
                 var transactions = data.Select(item => new ShortTransactionsResult() { Account = item.Account, Hash = item.Hash, Lt = item.Lt, Mode = item.Description.ComputePh.Mode }).ToList();
                 return new BlockTransactionsResult()
                 {
@@ -212,7 +218,7 @@ namespace TonSdk.Client
                     "boc", boc.ToString("base64")
                 }
             }), _httpClient).CallPost();
-            var resultRoot = JsonConvert.DeserializeObject<RootSendBoc>(result);
+            var resultRoot = JsonSerializer.Deserialize<RootSendBoc>(result, _jsonSerializerOptions);
             return new SendBocResult()
                 {
                     Hash = resultRoot.MessageHash,
@@ -234,7 +240,7 @@ namespace TonSdk.Client
                     "stack", items
                 }
             }), _httpClient).CallPost();
-            return new RunGetMethodResult(JsonConvert.DeserializeObject<OutV3RunGetMethod>(result));
+            return new RunGetMethodResult(JsonSerializer.Deserialize<OutV3RunGetMethod>(result, _jsonSerializerOptions));
         }
         
         internal async Task<EstimateFeeResultExtended> EstimateFee(MessageX message, bool ignoreChksig = true)
@@ -267,7 +273,7 @@ namespace TonSdk.Client
                 }
             }), _httpClient).CallPost();
             
-            return JsonConvert.DeserializeObject<EstimateFeeResultExtended>(result);
+            return JsonSerializer.Deserialize<EstimateFeeResultExtended>(result, _jsonSerializerOptions);
         }
 
         public async Task<string> CustomGetMethodCall(string request, List<string[]> body)

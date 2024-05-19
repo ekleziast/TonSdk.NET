@@ -12,7 +12,7 @@ using TonSdk.Core.Crypto;
 
 namespace TonSdk.Adnl.LiteClient
 {
-    public class LiteClient
+    public class LiteClient : IDisposable, IAsyncDisposable
     {
         private Dictionary<string, TaskCompletionSource<TLReadBuffer>> _pendingRequests;
         private AdnlClientTcp _adnlClient;
@@ -505,6 +505,15 @@ namespace TonSdk.Adnl.LiteClient
             _pendingRequests[queryId].SetResult(liteQueryBuffer);
             _pendingRequests.Remove(queryId);
         }
-        
+
+        public void Dispose()
+        {
+            _adnlClient.Dispose();
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            await _adnlClient.DisposeAsync();
+        }
     }
 }

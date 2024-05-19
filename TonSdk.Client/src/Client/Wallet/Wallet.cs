@@ -1,6 +1,5 @@
 ﻿
 using System;
-using Newtonsoft.Json;
 using System.Numerics;
 using System.Threading.Tasks;
 using TonSdk.Client.Stack;
