@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Globalization;
 using System.Numerics;
 using System.Text.RegularExpressions;
@@ -51,6 +52,18 @@ namespace TonSdk.Core {
             Value = !isNano ? decimalValue * Multiplier : decimalValue;
         }
 
+        private Coins() { }
+
+        private Coins DeepCopy()
+        {
+            var copy = new Coins();
+            copy.Decimals = Decimals;
+            copy.Multiplier = Multiplier;
+            copy.Value = Value;
+
+            return copy;
+        }
+
         /// <summary>
         /// Adds the specified Coins to the current instance.
         /// </summary>
@@ -60,8 +73,9 @@ namespace TonSdk.Core {
             CheckCoins(coins);
             CompareCoinsDecimals(this, coins);
 
-            Value += coins.Value;
-            return this;
+            var copy = this.DeepCopy();
+            copy.Value += coins.Value;
+            return copy;
         }
 
         /// <summary>
@@ -73,8 +87,9 @@ namespace TonSdk.Core {
             CheckCoins(coins);
             CompareCoinsDecimals(this, coins);
 
-            Value -= coins.Value;
-            return this;
+            var copy = this.DeepCopy();
+            copy.Value -= coins.Value;
+            return copy;
         }
 
         /// <summary>
@@ -88,8 +103,9 @@ namespace TonSdk.Core {
 
             var multiplier = Convert.ToDecimal(value);
 
-            Value *= multiplier;
-            return this;
+            var copy = this.DeepCopy();
+            copy.Value *= multiplier;
+            return copy;
         }
 
         /// <summary>
@@ -102,9 +118,10 @@ namespace TonSdk.Core {
             CheckConvertibility(value);
 
             var divider = Convert.ToDecimal(value);
-
-            Value /= divider;
-            return this;
+            
+            var copy = this.DeepCopy();
+            copy.Value /= divider;
+            return copy;
         }
 
         /// <summary>
