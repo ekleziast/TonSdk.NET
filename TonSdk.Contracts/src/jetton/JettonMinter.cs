@@ -58,12 +58,12 @@ namespace TonSdk.Contracts.Jetton
         private Address _adminAddress;
         private IJettonContentStorage _content;
 
-        public JettonMinter(JettonMinterOptions options)
+        public JettonMinter(JettonMinterOptions options, string? jettonWalletCodeHex = null)
         {
             _adminAddress = options.AdminAddress;
             _content = options.JettonContent;
             _code = options.Code ?? Cell.From(Models.JETTON_MINTER_CODE_HEX);
-            _stateInit = BuildStateInit();
+            _stateInit = BuildStateInit(jettonWalletCodeHex);
             _address = new Address(options.Workchain ?? 0, _stateInit);
         }
 
@@ -111,14 +111,14 @@ namespace TonSdk.Contracts.Jetton
             return builder.Build();
         }
 
-        protected sealed override StateInit BuildStateInit() {
+        protected sealed override StateInit BuildStateInit(string? jettonWalletCodeHex = null) {
             var data = new CellBuilder()
                 .StoreCoins(new Coins(0))
                 .StoreAddress(_adminAddress)
                 .StoreRef(_content is JettonOffChainContent content 
                     ? SmcUtils.CreateOffChainUriCell(content.ContentUri) :
                     SmcUtils.CreateOnChainUriCell((JettonOnChainContent)_content))
-                .StoreRef(Cell.From(Models.JETTON_WALLET_CODE_HEX))
+                .StoreRef(Cell.From(jettonWalletCodeHex ?? Models.JETTON_WALLET_CODE_HEX))
                 .Build();
             return new StateInit(new StateInitOptions { Code = _code, Data = data });
         }

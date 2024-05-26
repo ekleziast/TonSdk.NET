@@ -46,7 +46,7 @@ namespace TonSdk.Contracts.nft
         private string _nftItemContentBaseUri;
         private Cell _nftItemCode;
         
-        public NftCollection(NftCollectionOptions options)
+        public NftCollection(NftCollectionOptions options, string? jettonWalletCodeHex = null)
         {
             if (options.Royalty > 1)
                 throw new ArgumentException("Royalty cannot be greater than 1");
@@ -127,7 +127,7 @@ namespace TonSdk.Contracts.nft
             return body.Build();
         }
         
-        protected sealed override StateInit BuildStateInit()
+        protected sealed override StateInit BuildStateInit(string? jettonWalletCodeHex = null)
         {
             // make content ref
             var collectionContentCell = SmcUtils.CreateOffChainUriCell(_collectionContentUri);

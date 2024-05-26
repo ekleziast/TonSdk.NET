@@ -21,7 +21,7 @@ namespace TonSdk.Contracts
         public StateInit StateInit => _stateInit;
 
         public Address Address => _address;
-        protected abstract StateInit BuildStateInit();
+        protected abstract StateInit BuildStateInit(string? jettonWalletCodeHex = null);
         
     }
 }
