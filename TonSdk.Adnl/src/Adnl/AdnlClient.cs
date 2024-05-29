@@ -200,7 +200,7 @@ namespace TonSdk.Adnl
         private byte[] Encrypt(byte[] data) => _cipher.Update(data);
         private byte[] Decrypt(byte[] data) => _decipher.Update(data);
         
-        private static string ConvertToIPAddress(int number)
+        public static string ConvertToIPAddress(int number)
         {
             uint unsignedNumber = (uint)number;
             byte[] bytes = new byte[4];
