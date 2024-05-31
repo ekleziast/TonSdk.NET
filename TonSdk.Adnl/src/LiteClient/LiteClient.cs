@@ -51,6 +51,17 @@ namespace TonSdk.Adnl.LiteClient
                 if (cancellationToken.IsCancellationRequested) return;
                 await Task.Delay(150, cancellationToken);
             }
+
+            Task.Run(async () => { await RunPingPong(cancellationToken); });
+        }
+
+        private async Task RunPingPong(CancellationToken cancellationToken)
+        {
+            using var periodicTimer = new PeriodicTimer(TimeSpan.FromSeconds(5));
+            while (await periodicTimer.WaitForNextTickAsync())
+            {
+                await PingPong();
+            }
         }
 
         public void Disconnect()

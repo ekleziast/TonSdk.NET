@@ -259,10 +259,10 @@ namespace TonSdk.Client
                 transactionId.Lt = (long)afterLt;
             }
             else transactionId = null;
-            
+
             ListBlockTransactionsResult blockTransactions = await _liteClient.ListBlockTransactions(blockId, count, transactionId);
 
-            result.Transactions = blockTransactions.TransactionIds.Select(tx => 
+            result.Transactions = blockTransactions.TransactionIds.Select(tx =>
                 new ShortTransactionsResult()
                 {
                     Account = new Address(workchain, tx.Account).ToString(),

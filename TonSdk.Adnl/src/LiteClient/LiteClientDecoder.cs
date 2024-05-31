@@ -231,7 +231,7 @@ namespace TonSdk.Adnl.LiteClient
 
             return buffer.ReadBuffer();
         }
-        
+
         internal static ListBlockTransactionsExtendedResult DecodeListBlockTransactionsExtended(TLReadBuffer buffer)
         {
             // id:tonNode.blockIdExt
@@ -260,7 +260,7 @@ namespace TonSdk.Adnl.LiteClient
 
             buffer.ReadUInt32();
             bool inComplete = buffer.ReadBool();
-            
+
             uint count = buffer.ReadUInt32();
 
             List<TransactionId> ids = new List<TransactionId>();

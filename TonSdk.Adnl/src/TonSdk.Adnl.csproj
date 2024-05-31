@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net6.0;net7.0;net8.0;netstandard2.1</TargetFrameworks>
+        <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
         <ImplicitUsings>disable</ImplicitUsings>
         <LangVersion>8.0</LangVersion>
         <RootNamespace>TonSdk.Adnl</RootNamespace>
@@ -21,6 +21,10 @@
     <ItemGroup>
         <None Include="README.MD" Pack="true" PackagePath="" />
         <None Include="../../LICENSE" Pack="true" PackagePath="" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="System.Threading" Version="4.3.0" />
     </ItemGroup>
 
     <ItemGroup>

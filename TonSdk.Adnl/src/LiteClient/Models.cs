@@ -120,12 +120,12 @@ namespace TonSdk.Adnl.LiteClient
     {
         public byte[] Account { get; set; }
         public long Lt { get; set; }
-        
+
         public byte[] Hash { get; set; }
-        
+
     }
-    
-    
+
+
     public class TransactionId3 : ITransactionId
     {
         public Address Account { get; set; }
@@ -137,7 +137,7 @@ namespace TonSdk.Adnl.LiteClient
             Lt = lt;
         }
     }
-    
+
     public class ListBlockTransactionsExtendedResult
     {
         public bool InComplete { get; set; }
@@ -165,7 +165,7 @@ namespace TonSdk.Adnl.LiteClient
             Proof = proof;
         }
     }
-    
+
     [Flags]
     internal enum RunSmcModes
     {

@@ -396,6 +396,14 @@ namespace TonSdk.Client
             [JsonPropertyName("incomplete")] public bool Incomplete;
             [JsonPropertyName("transactions")] public ShortTransactionsResult[] Transactions;
         }
+
+        internal struct OutBlockTransactionsResultExtended
+        {
+            [JsonPropertyName("id")] public BlockIdExtended Id;
+            [JsonPropertyName("req_count")] public int ReqCount;
+            [JsonPropertyName("incomplete")] public bool Incomplete;
+            [JsonPropertyName("transactions")] public byte[] Transactions;
+        }
         
         internal struct OutBlockHeaderResult
         {
@@ -424,6 +432,18 @@ namespace TonSdk.Client
             [JsonPropertyName("utime")] public long Utime;
             [JsonPropertyName("data")] public string Data;
             [JsonPropertyName("transaction_id")] public TransactionId TransactionId;
+            [JsonPropertyName("fee")] public string Fee;
+            [JsonPropertyName("storage_fee")] public string StorageFee;
+            [JsonPropertyName("other_fee")] public string OtherFee;
+            [JsonPropertyName("in_msg")] public OutRawMessage InMsg;
+            [JsonPropertyName("out_msgs")] public OutRawMessage[] OutMsgs;
+        }
+        
+        internal struct OutTransactionsResultExtended
+        {
+            [JsonPropertyName("utime")] public long Utime;
+            [JsonPropertyName("data")] public string Data;
+            [JsonPropertyName("transactios")] public byte[] Transactions;
             [JsonPropertyName("fee")] public string Fee;
             [JsonPropertyName("storage_fee")] public string StorageFee;
             [JsonPropertyName("other_fee")] public string OtherFee;
@@ -744,14 +764,6 @@ namespace TonSdk.Client
             Incomplete = outBlockTransactionsResult.Incomplete;
             Transactions = outBlockTransactionsResult.Transactions;
         }
-    }
-    
-    public struct BlockTransactionsResultExtended
-    {
-        public BlockIdExtended Id;
-        public int ReqCount;
-        public bool Incomplete;
-        public TransactionsInformationResult[] Transactions;
     }
 
     public struct TransactionsInformationResult
