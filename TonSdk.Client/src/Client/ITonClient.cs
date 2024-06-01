@@ -84,6 +84,7 @@ namespace TonSdk.Client
             string fileHash = null,
             ulong? afterLt = null,
             string afterHash = null,
+            string afterAccount = null,
             uint count = 10);
 
         /// <summary>

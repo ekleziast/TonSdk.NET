@@ -239,7 +239,7 @@ namespace TonSdk.Client
             string rootHash = null,
             string fileHash = null,
             ulong? afterLt = null,
-            string afterHash = null,
+            string afterAccount = null,
             uint count = 10)
         {
             var result = new BlockTransactionsResult();
@@ -252,11 +252,10 @@ namespace TonSdk.Client
                 blockId = new Adnl.LiteClient.BlockIdExtended(workchain, Convert.FromBase64String(rootHash),
                     Convert.FromBase64String(fileHash), shard, (int)seqno);
 
-            var transactionId = new Adnl.LiteClient.TransactionId();
-            if (afterLt != null && afterHash != null)
+            TransactionId3 transactionId;
+            if (afterLt != null && afterLt != null)
             {
-                transactionId.Hash = Convert.FromBase64String(afterHash);
-                transactionId.Lt = (long)afterLt;
+                transactionId = new TransactionId3(new Address(afterAccount), (long)afterLt);
             }
             else transactionId = null;
 

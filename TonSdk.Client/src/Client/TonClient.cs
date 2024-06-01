@@ -198,13 +198,14 @@ namespace TonSdk.Client
             string fileHash = null,
             ulong? afterLt = null,
             string afterHash = null,
+            string afterAccount = null,
             uint count = 10)
         {
             return _type switch
             {
                 TonClientType.HTTP_TONCENTERAPIV2 => await _httpApi.GetBlockTransactions(workchain, shard, seqno, rootHash, fileHash, afterLt, afterHash, count),
                 TonClientType.HTTP_TONCENTERAPIV3 => await _httpApiV3.GetBlockTransactions(workchain, shard, seqno, rootHash, fileHash, afterLt, afterHash, count),
-                TonClientType.LITECLIENT => await _liteClientApi.GetBlockTransactions(workchain, shard, seqno, rootHash, fileHash, afterLt, afterHash, count),
+                TonClientType.LITECLIENT => await _liteClientApi.GetBlockTransactions(workchain, shard, seqno, rootHash, fileHash, afterLt, afterAccount, count),
                 TonClientType.HTTP_TONWHALESAPI => throw new Exception("Method not supported by HTTP_TONWHALESAPI client."),
                 _ => null
             };
