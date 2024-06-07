@@ -52,7 +52,7 @@ namespace TonSdk.Adnl.LiteClient
                 await Task.Delay(150, cancellationToken);
             }
 
-            Task.Run(async () => { await RunPingPong(cancellationToken); });
+            // Task.Run(async () => { await RunPingPong(cancellationToken); });
         }
 
         private async Task RunPingPong(CancellationToken cancellationToken)

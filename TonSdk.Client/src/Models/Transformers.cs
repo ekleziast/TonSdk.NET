@@ -9,6 +9,7 @@ using System.Text.Json.Serialization;
 using TonSdk.Adnl.LiteClient;
 using TonSdk.Client.Stack;
 using TonSdk.Core;
+using TonSdk.Core.Block;
 using TonSdk.Core.Boc;
 using static TonSdk.Client.Transformers;
 
@@ -397,12 +398,12 @@ namespace TonSdk.Client
             [JsonPropertyName("transactions")] public ShortTransactionsResult[] Transactions;
         }
 
-        internal struct OutBlockTransactionsResultExtended
+        internal struct OutBlockTransactionsExtendedResult
         {
             [JsonPropertyName("id")] public BlockIdExtended Id;
             [JsonPropertyName("req_count")] public int ReqCount;
             [JsonPropertyName("incomplete")] public bool Incomplete;
-            [JsonPropertyName("transactions")] public byte[] Transactions;
+            [JsonPropertyName("transactions")] public Cell[] Transactions;
         }
         
         internal struct OutBlockHeaderResult
@@ -443,7 +444,7 @@ namespace TonSdk.Client
         {
             [JsonPropertyName("utime")] public long Utime;
             [JsonPropertyName("data")] public string Data;
-            [JsonPropertyName("transactios")] public byte[] Transactions;
+            [JsonPropertyName("transactions")] public byte[] Transactions;
             [JsonPropertyName("fee")] public string Fee;
             [JsonPropertyName("storage_fee")] public string StorageFee;
             [JsonPropertyName("other_fee")] public string OtherFee;
@@ -764,6 +765,35 @@ namespace TonSdk.Client
             Incomplete = outBlockTransactionsResult.Incomplete;
             Transactions = outBlockTransactionsResult.Transactions;
         }
+    }
+
+    public struct BlockTransactionsResultExtended
+    {
+        public BlockIdExtended Id;
+        public int ReqCount;
+        public bool Incomplete;
+        public TransactionsInformationExtendedResult[] Transactions;
+    }
+
+    public enum AccountStatus 
+    {
+        nonexist,
+        active,
+        frozen,
+        uninitialized
+    }
+
+    public struct TransactionsInformationExtendedResult
+    {
+        public long Utime;
+        public Cell Data;
+        public TransactionId3 PreviousId;
+        public TransactionId3 Id;
+        public Coins Fee;
+        public Coins StorageFee;
+        public Coins OtherFee;
+        public RawMessage InMsg;
+        public RawMessage[] OutMsgs;
     }
 
     public struct TransactionsInformationResult

@@ -210,6 +210,24 @@ namespace TonSdk.Client
                 _ => null
             };
         }
+
+        public async Task<BlockTransactionsResultExtended?> GetBlockTransactionsExtended(
+            int workchain,
+            long shard,
+            long seqno,
+            string rootHash = null,
+            string fileHash = null,
+            ulong? afterLt = null,
+            string afterHash = null,
+            string afterAccount = null,
+            uint count = 10)
+        {
+            return _type switch
+            {
+                TonClientType.LITECLIENT => await _liteClientApi.GetBlockTransactionsExtended(workchain, shard, seqno, rootHash, fileHash, afterLt, afterAccount, count),
+                _ => null
+            };
+        }
         
         /// <summary>
         /// Retrieves transaction information for the specified address.
