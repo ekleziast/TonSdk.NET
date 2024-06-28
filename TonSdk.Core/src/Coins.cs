@@ -38,7 +38,7 @@ namespace TonSdk.Core {
             CheckCoinsType(_value);
             CheckCoinsDecimals(decimals);
 
-            decimal decimalValue = decimal.Parse(_value, new CultureInfo("en-US"));
+            TryConvertCoinsValue(_value, out decimal decimalValue);
 
             int digitsValue = GetDigitsAfterDecimalPoint(decimalValue);
             if (digitsValue > decimals) {
@@ -220,7 +220,7 @@ namespace TonSdk.Core {
         }
 
         private static void CheckCoinsType(object value) {
-            if (IsValid(value) && IsConvertable(value)) return;
+            if (IsValid(value) && TryConvertCoinsValue(value, out _)) return;
             if (IsCoins(value)) return;
 
             throw new Exception("Invalid Coins value");
@@ -249,7 +249,7 @@ namespace TonSdk.Core {
         }
 
         private static void CheckConvertibility(object value) {
-            if (IsConvertable(value)) return;
+            if (TryConvertCoinsValue(value, out _)) return;
 
             throw new Exception("Invalid value");
         }
@@ -259,12 +259,23 @@ namespace TonSdk.Core {
                    value is long;
         }
 
-        private static bool IsConvertable(object value) {
+        private static bool TryConvertCoinsValue(object value, out decimal result)
+        {
+            result = 0;
             try {
-                decimal.Parse(value.ToString(), new CultureInfo("en-US"));
-                return true;
+                if (decimal.TryParse(value.ToString(), NumberStyles.Any, new CultureInfo("en-US"), out result)) {
+                    return true;
+                }
+                
+                double doubleValue;
+                if (double.TryParse(value.ToString(), NumberStyles.Any, new CultureInfo("en-US"), out doubleValue)) {
+                    result = (decimal)doubleValue;
+                    return true;
+                }
+
+                return false;
             }
-            catch (Exception) {
+            catch {
                 return false;
             }
         }
